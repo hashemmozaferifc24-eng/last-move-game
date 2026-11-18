@@ -2,21 +2,75 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>آخرین حرکت</title>
 <style>
-body{margin:0;background:#17212b;color:white;font-family:tahoma;text-align:center}
-h2{color:#55e69a;margin:15px}
-#info{margin:12px;font-size:15px}
-#map{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;width:94%;max-width:420px;margin:15px auto}
-.cell{aspect-ratio:1;background:#59636c;border:1px solid #89939c;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:25px}
-.road{background:#424c55}
-.build{background:#202a35}
-.car{background:#087d50}
-.goal{background:#b58b24}
-button{padding:12px 25px;border:0;border-radius:9px;background:#20c879;color:#10251a;font-size:17px;font-weight:bold}
-#msg{min-height:35px;color:#ffe17b;margin:12px}
+body{background:#17212b;color:white;text-align:center;font-family:tahoma}
+#map{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;max-width:400px;margin:20px auto}
+.cell{aspect-ratio:1;background:#59636c;display:grid;place-items:center;font-size:22px}
+button{padding:12px;background:#20c879;border:0;border-radius:8px}
 </style>
 </head>
 <body>
-<h2
+<h2>🚗 آخرین حرکت</h2>
+<div id="info"></div>
+<div id="msg">ماشین را به مقصد برسان!</div>
+<div id="map"></div>
+<script>
+let car=[6,0],level=1,life=3,steps=0;
+let walls=["2,1","2,2","3,2","4,2","4,4"];
+let mines=["6,2","3,0"];
+function draw(){
+map.innerHTML="";
+for(let r=0;r<7;r++){
+for(let c=0;c<7;c++){
+let k=r+","+c,d=document.createElement("div");
+d.className="cell";
+d.dataset.p=k;
+if(walls.includes(k))d.textContent="🏢";
+if(r==0&&c==6)d.textContent="🏁";
+if(r==car[0]&&c==car[1])d.textContent="🚗";
+map.appendChild(d);
+}}
+info.textContent="مرحله "+level+" | حرکت "+steps+" | جان "+life;
+}
+  map.onclick=e=>{
+if(!e.target.dataset.p)return;
+let p=e.target.dataset.p.split(",").map(Number);
+let r=p[0],c=p[1];
+if(walls.includes(p.join(","))){msg.textContent="⛔ ساختمان بسته است";return}
+let distance=Math.abs(r-car[0])+Math.abs(c-car[1]);
+if(distance===0)return;
+if(r!==car[0]&&c!==car[1]){msg.textContent="یک ردیف یا ستون حرکت کن";return}
+let danger=mines.includes(p.join(","));
+steps+=distance;
+if(danger){
+life--;
+mines=mines.filter(x=>x!==p.join(","));
+car=[6,0];
+msg.textContent="💥 مین! ماشین برگشت.";
+}else{
+car=p;
+if(r===0&&c===6){
+level++;
+walls=["2,1","3,1","4,1","4,3"];
+mines=["5,2","2,4"];
+car=[6,0];
+msg.textContent="🎉 مرحله بعد!";
+}
+}
+if(life<=0msg.textContent="بازی تمام شد!";
+draw();
+};
+function reset(){
+car=[6,0];level=1;life=3;steps=0;
+walls=["2,1","2,2","3,2","4,2","4,4"];
+mines=["6,2","3,0"];
+msg.textContent="بزن بریم!";
+draw();
+}
+draw();
+</script>
+<button onclick="reset()">شروع دوباره</button>
+</body>
+</html>
