@@ -3,86 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>آخرین حرکت | شهر خطر</title>
+<title>آخرین حرکت</title>
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;background:#101820;color:white;
- font-family:tahoma;text-align:center;padding:12px
-}
-h1{color:#65e58a;margin:12px 0}
-p{font-size:14px;color:#ddd}
-.info{
- display:flex;justify-content:center;gap:8px;
- flex-wrap:wrap;margin:15px 0
-}
-.info span{
- background:#263746;padding:10px;border-radius:10px
-}
-#map{
- display:grid;grid-template-columns:repeat(7,1fr);
- gap:3px;max-width:430px;margin:15px auto;
- background:#18232b;padding:5px;border-radius:12px
-}
-.cell{
- aspect-ratio:1;display:flex;align-items:center;
- justify-content:center;font-size:clamp(17px,5vw,27px);
- border-radius:4px;position:relative;
- user-select:none;touch-action:manipulation
-}
-.road{
- background:#454b50;
- border:1px solid #687078
-}
-.building{
- background:#243c32;
- border:1px solid #45614d;
- font-size:clamp(15px,4vw,23px)
-}
-.goal{background:#8b7020}
-.car{
- background:#168447;
- border:2px solid #8cffaa;
- box-shadow:0 0 9px #37ff79;
- z-index:2
-}
-button{
- background:#59d982;color:#102018;
- border:0;border-radius:10px;padding:13px 22px;
- font-size:17px;font-weight:bold;margin:8px
-}
-#message{min-height:35px;color:#ffe27b;margin:12px}
-.small{font-size:12px;color:#aaa}
+body{margin:0;background:#17212b;color:white;font-family:tahoma;text-align:center}
+h2{color:#55e69a;margin:15px}
+#info{margin:12px;font-size:15px}
+#map{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;width:94%;max-width:420px;margin:15px auto}
+.cell{aspect-ratio:1;background:#59636c;border:1px solid #89939c;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:25px}
+.road{background:#424c55}
+.build{background:#202a35}
+.car{background:#087d50}
+.goal{background:#b58b24}
+button{padding:12px 25px;border:0;border-radius:9px;background:#20c879;color:#10251a;font-size:17px;font-weight:bold}
+#msg{min-height:35px;color:#ffe17b;margin:12px}
 </style>
 </head>
 <body>
-
-<h1>🚗 آخرین حرکت</h1>
-<p>ماشین سبز را به مقصد برسان؛ مراقب مین‌ها باش!</p>
-
-<div class="info">
-<span>مرحله: <b id="level">1</b></span>
-<span>حرکت باقی‌مانده: <b id="moves">0</b></span>
-<span>جان: <b id="lives">❤️❤️❤️</b></span>
-</div>
-
-<div id="map"></div>
-<div id="message">روی خیابان لمس کن تا ماشین حرکت کند.</div>
-<p class="small">فقط مسیرهای متصل و قابل عبور انتخاب می‌شوند.</p>
-<button onclick="restart()">شروع دوباره</button>
-
-<script>
-const levels=[
-{
-start:[6,0],goal:[0,6],max:18,
-walls:[[1,1],[1,4],[2,4],[3,1],[4,1],[4,5],[5,5]],
-mines:[[2,2],[4,3],[5,1]]
-},
-{
-start:[6,0],goal:[0,6],max:18,
-walls:[[1,1],[1,2],[1,5],[2,3],[3,1],[3,5],[4,3],[5,5]],
-mines:[[2,1],[3,3],[5,2]]
-},
-{
-start:[6,0],goal:[0,6],max:20,
-walls:[[1,1],[1,3],[1,5],[2,3
+<h2
